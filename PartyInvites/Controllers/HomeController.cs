@@ -33,8 +33,15 @@ namespace PartyInvites.Controllers
         [HttpPost]
         public ViewResult RsvpForm(GuestResponse guestResponse)
         {
-            // TODO: 파티 주쵲에게 guestResponse를 전자우편으로 발송한다.
-            return View("Thanks", guestResponse);
+            if (ModelState.IsValid)
+            {
+                // TODO: 파티 주쵲에게 guestResponse를 전자우편으로 발송한다.
+                return View("Thanks", guestResponse);
+            }
+            else
+            {
+                return View();
+            }
         }
     }
 }
