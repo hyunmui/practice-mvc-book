@@ -106,7 +106,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PartyInvites\PartyInvites.csproj">
+    <ProjectReference Include="..\..\Source\PartyInvites\PartyInvites.csproj">
       <Project>{BD6DFC61-9842-4C01-9613-8FB84D582E58}</Project>
       <Name>PartyInvites</Name>
     </ProjectReference>
