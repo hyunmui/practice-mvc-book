@@ -1,5 +1,6 @@
 ﻿using CsharpExample.Models;
 using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace CsharpExample.Controllers
@@ -41,6 +42,34 @@ namespace CsharpExample.Controllers
             decimal cartTotal = cart.TotalPrices();
 
             return View("Result", (object)string.Format("Total : {0:c}", cartTotal));
+        }
+
+        public ViewResult UseExtensionEnumerable()
+        {
+            // Init Instance
+            IEnumerable<Product> products = new ShoppingCart
+            {
+                Products = new List<Product>
+                {
+                    new Product { Name="Kayak", Price = 275M },
+                    new Product { Name="Lifejacket", Price = 48.95M },
+                    new Product { Name="Soccer ball", Price = 19.5M },
+                    new Product { Name="Corner flag", Price = 34.95M },
+                }
+            };
+
+            Product[] productArray = {
+                    new Product { Name="Kayak", Price = 275M },
+                    new Product { Name="Lifejacket", Price = 48.95M },
+                    new Product { Name="Soccer ball", Price = 19.5M },
+                    new Product { Name="Corner flag", Price = 34.95M },
+                };
+
+            // Calculate Sum
+            decimal cartTotal = products.TotalPrices();
+            decimal arrayTotal = productArray.TotalPrices();
+
+            return View("Result", (object)string.Format("Total : {0:c}, Array Total : {1:c}", cartTotal, arrayTotal));
         }
     }
 }
