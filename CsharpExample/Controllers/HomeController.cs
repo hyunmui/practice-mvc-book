@@ -85,11 +85,42 @@ namespace CsharpExample.Controllers
                 }
             };
 
+            // Not Lamda
+            //Func<Product, bool> categoryFilter = delegate (Product prod)
+            //{
+            //    return prod.Category == "Soccer";
+            //};
+
+            // Lamda
+            Func<Product, bool> categoryFilter = prod => prod.Category == "Soccer";
+
             decimal total = 0;
-            foreach (Product prod in products.FilterByCategory("Soccer"))
+            //foreach (Product prod in products.Filter(categoryFilter))
+            //{
+            //    total += prod.Price;
+            //}
+
+            // more compress
+            foreach (Product prod in products.Filter(prod => prod.Category == "Soccer" || prod.Price > 20))
             {
                 total += prod.Price;
             }
+
+            /* 
+             * additional info for Lamda
+             * 
+             * 1. Replace to method
+             * :: prod => EvaluateProduct(prod)
+             * 
+             * 2. More Parameters
+             * :: (prod, count) => prod.Price > 20 && count > 0
+             * 
+             * 3. Complete Lamda
+             * :: (prod, count) => {
+             *      bla..bla...
+             *      return result;
+             * }
+             */
 
             return View("Result", (object)string.Format("Total : {0:c}", total));
         }
