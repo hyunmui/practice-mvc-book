@@ -1,4 +1,5 @@
 ﻿using CsharpExample.Models;
+using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -143,6 +144,71 @@ namespace CsharpExample.Controllers
             }
 
             return View("Result", (object)result.ToString());
+        }
+
+        // LINQ
+        public ViewResult FindProducts()
+        {
+            Product[] products =  
+            {
+                new Product { Name="Kayak", Category = "Watersports", Price = 275M },
+                new Product { Name="Lifejacket", Category = "Watersports", Price = 48.95M },
+                new Product { Name="Soccer ball", Category = "Soccer", Price = 19.5M },
+                new Product { Name="Corner flag", Category = "Soccer", Price = 34.95M },
+            };
+
+            /*** Non LINQ ***/
+            //// Declare Array
+            //Product[] foundProducts = new Product[3];
+
+            //// Array Sorting
+            //Array.Sort(products, (item1, item2) =>
+            //{
+            //    return Comparer<decimal>.Default.Compare(item1.Price, item2.Price);
+            //});
+
+            //// Get Only Three Item
+            //Array.Copy(products, foundProducts, 3);
+
+            /*** LINQ ***/
+            //var foundProducts = from match in products
+            //                    orderby match.Price descending
+            //                    select new { match.Name, match.Price };
+
+            /*** LINQ with Dot Notation ***/
+            var foundProducts = products.OrderByDescending(e => e.Price)
+                                        .Take(3)
+                                        .Select(e => new { e.Name, e.Price });
+
+            // delay execution example
+            //products[2] = new Product { Name = "Stadium", Price = 79600M };
+
+            // Write Result
+            StringBuilder result = new StringBuilder();
+            foreach (var p in foundProducts)
+            {
+                result.AppendFormat("Price: {0} ", p.Price);
+            }
+
+            return View("Result", (object)result.ToString());
+        }
+
+        // LINQ - not delay execution
+        public ViewResult SumProducts()
+        {
+            Product[] products =
+            {
+                new Product { Name="Kayak", Category = "Watersports", Price = 275M },
+                new Product { Name="Lifejacket", Category = "Watersports", Price = 48.95M },
+                new Product { Name="Soccer ball", Category = "Soccer", Price = 19.5M },
+                new Product { Name="Corner flag", Category = "Soccer", Price = 34.95M },
+            };
+
+            var results = products.Sum(e => e.Price);
+
+            products[2] = new Product { Name = "Stadium", Price = 79500M };
+
+            return View("Result", (object)$"Sum: {results:c}");
         }
     }
 }
