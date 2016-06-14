@@ -1,6 +1,7 @@
 ﻿using CsharpExample.Models;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Web.Mvc;
 
 namespace CsharpExample.Controllers
@@ -123,6 +124,25 @@ namespace CsharpExample.Controllers
              */
 
             return View("Result", (object)string.Format("Total : {0:c}", total));
+        }
+
+        // Anonymous Type
+        public ViewResult CreateAnonArray()
+        {
+            var oddsAndEnds = new[]
+            {
+                new { Name = "MVC", Category = "Pattern"},
+                new { Name = "Hat", Category = "Clothing"},
+                new { Name = "Apple", Category = "Fruit"},
+            };
+
+            StringBuilder result = new StringBuilder();
+            foreach (var item in oddsAndEnds)
+            {
+                result.Append(item.Name).Append(" ");
+            }
+
+            return View("Result", (object)result.ToString());
         }
     }
 }
