@@ -1,9 +1,6 @@
 ﻿using EssentialTools.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using Ninject;
 
 namespace EssentialTools.Controllers
 {
@@ -20,7 +17,14 @@ namespace EssentialTools.Controllers
         // GET: Home
         public ActionResult Index()
         {
-            IValueCalculator calc = new LinqValueCalculator();
+            IKernel ninjectKernel = new StandardKernel();
+            ninjectKernel.Bind<IValueCalculator>().To<LinqValueCalculator>();       // 이부분이 의존성이 남아있음
+
+            // 의존성 남아있음
+            //IValueCalculator calc = new LinqValueCalculator();
+
+            // NInject를 통해 의존성 제거
+            IValueCalculator calc = ninjectKernel.Get<IValueCalculator>();
 
             ShoppingCart cart = new ShoppingCart(calc) { Products = products };
 
